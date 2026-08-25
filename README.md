@@ -25,7 +25,13 @@ To understand the big picture. Data Science, Machine Learning and Deep Learning 
 Python, Pandas, Scikit-Learn, PyTorch/TensorFlow, HuggingFace, FastAPI, Docker
 
 <span style="color:orange;">note :</span> Some features may be subject to change.
-
+  
+  
+  
+---
+  
+  
+  
 # ภาษาไทย  
 ## ชื่อเล่นโปรเจค :  
 mm-ecom-engine  
