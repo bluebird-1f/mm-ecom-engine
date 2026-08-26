@@ -1,0 +1,63 @@
+ADR 001: Selection of Core Tech Stack for Data Science & AI Platform
+
+Status: Accepted
+Date: 2026-08-26
+
+Context (บริบทและความท้าทาย)
+ทีมต้องการพัฒนาแพลตฟอร์มรองรับตั้งแต่การทำ Data Processing, 
+การฝึกสร้างโมเดล Machine Learning / Deep Learning, 
+การต่อยอดใช้ Large Language Models (LLM / NLP) 
+ไปจนถึงการประมวลผลผ่าน API Endpoint เพื่อนำไปใช้งานจริง (Production Deployment)
+
+ระบบต้องรองรับความยืดหยุ่นในการทดลองโมเดล (Experimentation) และรองรับ Containerization 
+เพื่อให้การ Deploy ข้าม Environment มีความเสถียรและสอดคล้องกัน
+
+Decision Drivers (ปัจจัยในการตัดสินใจ)
+  1 ความสมบูรณ์ของ Ecosystem ทางด้าน Data Science และ AI
+  2 ความเร็วในการพัฒนา (Developer Velocity) และประสิทธิภาพการทำงานของ API Service
+  3 การรองรับมาตรฐานอุตสาหกรรมในด้าน Deep Learning และ Open-source AI Foundation Models
+  4 ความง่ายในการทำ Containerization และ CI/CD Pipeline Deployment
+
+Considered Options (ตัวเลือกที่นำมาพิจารณา)
+  1 Python Ecosystem (Pandas, Scikit-Learn, PyTorch/TensorFlow, HuggingFace, FastAPI, Docker)
+  2 R & Shiny Stack (R, Tidyverse, Caret, Shiny, Docker)
+  3 Node.js/TypeScript Stack (TypeScript, Brain.js, TensorFlow.js, Express.js, Docker)
+
+Decision Outcome (ผลการตัดสินใจ)
+เลือก Option 1: Python Ecosystem เนื่องจากตอบโจทย์รอบด้านที่สุดในสายงาน Data Science & AI
+
+Stack Components Breakdown:
+  1 Programming Language: Python
+  เหตุผล: เป็นภาษาหลักของอุตสาหกรรม AI/ML มี Library รองรับครบถ้วนและมี Community ขนาดใหญ่
+
+  2 Data Processing: Pandas
+  เหตุผล: มาตรฐานสำหรับการจัดการ Tabular Data และ Data Cleansing ก่อนนำไปเข้าโมเดล
+
+  3 Machine Learning: Scikit-Learn
+  เหตุผล: ครอบคลุม Classical ML Algorithms (เช่น Regression, Decision Trees, Clustering) รวมถึงมี Preprocessing Tools ที่เสถียร
+
+  4 Deep Learning Framework: PyTorch / TensorFlow
+  เหตุผล: รองรับ Neural Network ทั้งการทำ Computer Vision, Time Series และ Custom Model Building (ใช้ PyTorch สำหรับงาน Research/Flexibility หรือ TensorFlow หากต้องการร่วมกับ TFX Ecosystem)
+
+  5 NLP & Generative AI: HuggingFace (Transformers)
+  เหตุผล: สถาปัตยกรรมระดับอุตสาหกรรมสำหรับดึง Pre-trained Models, Fine-tuning LLMs และประยุกต์ใช้กับ NLP Tasks ได้รวดเร็วที่สุด
+
+  6 API Gateway / Serving: FastAPI
+  เหตุผล: ประสิทธิภาพสูงรองรับ Asynchronous (ASGI), เขียนด้วย Python Native Typing และสร้าง Open API Specs (Swagger UI) ให้โดยอัตโนมัติ
+
+  7 Deployment & Containerization: Docker
+  เหตุผล: ควบคุม Dependencies ของ Python/CUDA ให้คงที่ รองรับการ Scale บน Cloud หรือ Kubernetes (K8s) ได้ง่าย
+
+Pros and Cons (ข้อดีและข้อเสีย)
+  Pros (ข้อดี)
+    1 Unified Language: ใช้ Python ทั้งในส่วน Data Science (Exploration) และ Backend/API (Production) ทำให้โอนย้ายงานง่าย
+    2 Fast Time-to-Market: ใช้ Pre-trained Models จาก HuggingFace และ Scikit-Learn ร่วมกับ FastAPI ได้รวดเร็ว
+    3 Container Consistency: การใช้ Docker ช่วยตัดปัญหาเรื่องสภาพแวดล้อมระบบต่างกัน (เช่น Version ของ Cuda หรือ C++ Libraries)
+
+  Cons (ข้อเสีย)
+    1 Resource Usage: Pandas และ Deep Learning Frameworks ใช้ RAM/GPU ค่อนข้างสูง หากรับไฟล์ขนาดใหญ่มากๆ ในอนาคตอาจต้องพิจารณา Polars หรือ Spark เพิ่มเติม
+    2 Global Interpreter Lock (GIL): Python อาจมีข้อจำกัดด้าน CPU-bound Multi-threading แต่งานส่วนใหญ่จะถูก Delegate ไปให้ C++/CUDA ในระดับ Core Libraries แทน
+
+Consequences (ผลกระทบที่จะเกิดขึ้น)
+  1 ทีม Data Engineers และ ML Engineers สามารถทำงานบน Codebase ภาษาเดียวกันได้โดยตรง
+  2 ต้องกำหนดแนวทางการจัดการ Docker Image Size (เช่น การใช้ Multi-stage Builds หรือ Base Images ที่ลบ Cache ของ PyTorch/TensorFlow ออกหลังติดตั้ง)
