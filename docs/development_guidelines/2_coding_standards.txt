@@ -1,0 +1,26 @@
+[Security Standards]
+- ห้าม Hardcode Secret Key, API Key หรือ Password ใน Source Code ให้ใช้ Environment Variables (.env) เท่านั้น
+- ทุกการ Query ฐานข้อมูลต้องใช้ Prepared Statements เพื่อป้องกัน SQL Injection
+
+ตัวอย่างที่ถูกต้อง:
+db.query("SELECT * FROM users WHERE id = ?", [userId]);
+
+ตัวอย่างที่ผิด:
+db.query("SELECT * FROM users WHERE id = " + userId);
+
+---
+
+[Error Handling]
+- ห้ามใช้ Empty Catch Block (ต้อง Logging หรือ Return Error เสมอ)
+
+ตัวอย่างที่ถูกต้อง:
+try {
+  fetchData();
+} catch (error) {
+  logger.error("Failed to fetch data:", error);
+}
+
+ตัวอย่างที่ผิด:
+try {
+  fetchData();
+} catch (error) {}

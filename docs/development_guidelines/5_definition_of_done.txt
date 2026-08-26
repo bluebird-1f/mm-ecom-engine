@@ -1,0 +1,6 @@
+[Definition of Done Checklist]
+[ ] Code Pass: ผ่าน Linter, Format Check และไม่มี High/Critical Security Alert
+[ ] Test Pass: Unit Test ผ่าน 100% และ Code Coverage รวมไม่ต่ำกว่า 80%
+[ ] Code Review: ได้รับ 1+ Approval จาก Peer Reviewer ปล.สำหรับโปรเจคเดี่ยวไม่ต้อง
+[ ] Environment: Deploy บน Staging และผ่านการ QA Test เรียบร้อย
+[ ] Documentation: อัปเดต API Specs (Swagger/Postman) หรือ README หากมีการเปลี่ยนแปลง Schema/Endpoint

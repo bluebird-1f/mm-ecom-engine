@@ -1,0 +1,19 @@
+[Indentation & Spacing]
+- ใช้ Space 2 ช่องในการย่อหน้า (ไม่ใช้ Tab)
+- เว้นวรรคหลังเครื่องหมายจุลภาค (,) และรอบ Operator (+, -, =, ===)
+
+ตัวอย่างที่ถูกต้อง:
+const result = calculateTotal(price, tax);
+
+ตัวอย่างที่ผิด:
+const result=calculateTotal(price,tax);
+
+---
+
+[Line Length & Layout]
+- ความยาวโค้ดต่อบรรทัดไม่เกิน 100 ตัวอักษร
+- จัดกลุ่ม Import โดยเรียงจาก External Libs ขึ้นก่อน แล้วตามด้วย Internal Modules
+
+ตัวอย่างที่ถูกต้อง:
+import express from 'express';
+import { userService } from './services/user';

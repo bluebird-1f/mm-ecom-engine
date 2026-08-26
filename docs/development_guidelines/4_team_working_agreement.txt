@@ -1,0 +1,15 @@
+[Code Review & Pull Request]
+- Commits ต้องใช้ Conventional Commits (feat:, fix:, docs:, refactor:)
+
+ตัวอย่างที่ถูกต้อง:
+feat: add user authentication endpoint
+
+ตัวอย่างที่ผิด:
+update code / fix bug
+
+---
+
+[Communication & Working Hours]
+- เวลาทำงานหลัก (Core Hours) คือ 10:00 - 16:00 น.
+- แจ้งสแตนด์บายหรือลางานใน Slack ช่อง #team-out-of-office ล่วงหน้าอย่างน้อย 1 วัน
+ปล.ตอนนี้ฉันกำลังทำคนเดียว ใช้วิธีupdate ไฟล์ team-out-of-office.txt เอาเพื่อความสะดวก

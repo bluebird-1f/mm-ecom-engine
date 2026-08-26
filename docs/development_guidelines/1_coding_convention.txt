@@ -1,0 +1,39 @@
+1. Variable Naming
+   - ใช้ camelCase
+   - ตัวแปร Boolean ให้ขึ้นต้นด้วย is / has / can
+
+   ตัวอย่างที่ถูกต้อง:
+   userName
+   isActive
+   hasPermission
+
+   ตัวอย่างที่ผิด:
+   User_name
+   active
+   permissionFlag
+
+2. Function Naming
+   - ใช้ camelCase
+   - ชื่อควรเป็น Verb + Noun
+
+   ตัวอย่างที่ถูกต้อง:
+   getUser()
+   createOrder()
+   updateProfile()
+
+   ตัวอย่างที่ผิด:
+   GetUser()
+   get_User()
+   gUser()
+   get()
+
+3. Constant
+   - ใช้ UPPER_SNAKE_CASE
+
+   ตัวอย่างที่ถูกต้อง:
+   MAX_RETRY_COUNT
+   API_TIMEOUT
+
+   ตัวอย่างที่ผิด:
+   max_retry_count
+   apiTimeOut
