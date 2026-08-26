@@ -1,0 +1,67 @@
+================================================================================
+TEST STRATEGY & TEST PLAN
+Project: Multi-Modal E-Commerce Analytics & Intelligence Engine (mm-ecom-engine)
+================================================================================
+
+[PART 1: TEST STRATEGY]
+(กำหนดกรอบยุทธศาสตร์การทดสอบระบบ Data Science, Machine Learning และ API)
+
+1. Scope of Testing
+- Data Quality & Pipeline: ตรวจสอบความถูกต้องของ Data Cleansing และ Feature Engineering
+- Model Evaluation: ตรวจสอบวัดผล Accuracy/Metrics ของโมเดลก่อนปล่อยขึ้น Production
+- API & Integration: ตรวจสอบ Endpoints ของ FastAPI ทั้งการรับ Input และการ Return JSON
+- UI & End-to-End: ตรวจสอบการแสดงผลบน Streamlit Dashboard และการตอบสนองของระบบ
+
+2. Testing Levels & Tools
+- Unit Testing: Pytest (ทดสอบฟังก์ชันย่อย เช่น Preprocessing, Transformation)
+- Model Testing: Scikit-Learn Metrics / PyTorch Eval (เช็ก F1-Score, RMSE, Accuracy)
+- API Testing: HTTPX / FastAPI TestClient (ทดสอบ REST API Endpoints)
+- Load & Performance Testing: Locust (ทดสอบการรับ Concurrency Request ของ API)
+
+3. Acceptance Criteria (Quality Gates)
+- Code Coverage: Unit Test ต้องครอบคลุมมากกว่า 80% ของ Source Code
+- Tabular Model Performance: Churn Prediction ต้องมี F1-Score >= 0.75
+- NLP Model Performance: Sentiment Analysis ต้องมี Accuracy >= 0.80
+- Vision Model Performance: Category Classification ต้องมี Top-1 Accuracy >= 0.85
+- API Latency: 95% ของ Request ต้องตอบสนองภายในเวลาที่กำหนด (<100ms สำหรับ Tabular, <800ms สำหรับ NLP/Vision)
+
+--------------------------------------------------------------------------------
+
+[PART 2: TEST PLAN]
+(แผนการปฏิบัติงาน สกู๊ปงาน และเคสการทดสอบจริง)
+
+1. Test Scope Breakdown
+
+1.1 In-Scope (สิ่งที่ต้องทดสอบ):
+- การจัดการ Missing Values และ Outliers ใน Pandas Pipeline
+- ผลการทำนาย LTV และ Churn Risk จาก XGBoost/LightGBM
+- การประมวลผลข้อความภาษาไทย/อังกฤษ ของ BERT Transformer
+- การอัปโหลดไฟล์ภาพสินค้า (.png, .jpg) เข้าสู่ ResNet Model
+- การทำงานร่วมกันระหว่าง Streamlit และ FastAPI ผ่าน Docker
+
+1.2 Out-of-Scope (สิ่งที่ไม่ทดสอบในเฟสนี้):
+- การทดสอบระบบชำระเงิน (Payment Gateway)
+- การทดสอบ Security Pen-Test ระดับ Infrastructure
+
+2. Test Environment
+- OS: Ubuntu / macOS / Windows (ผ่าน Docker Container)
+- Python Version: 3.10
+- Test Data Sets: Cleaned E-Commerce Synthetic Dataset & Sample Images
+
+3. Key Test Cases Execution Matrix
+
+--------------------------------------------------------------------------------
+ID       | Test Suite    | Description                      | Expected Result
+--------------------------------------------------------------------------------
+TC-01    | Data Prep     | ส่ง Data ที่มี Null Value เข้ามา  | Pipeline เติมค่า Impute ได้ถูกต้อง ไม่เกิด Crash
+TC-02    | Tabular ML    | Request ข้อมูลลูกค้าเพื่อคำนวณ Churn | Return Probability Score (0.0 - 1.0) และ LTV
+TC-03    | NLP Engine    | ส่งข้อความรีวิว "สินค้าห่วยมาก"    | Return Label "NEGATIVE" พร้อม Score > 0.8
+TC-04    | Vision Engine | อัปโหลดรูปภาพรองเท้ากีฬา (.jpg)  | Return Category "Footwear" หรือ "Shoes"
+TC-05    | API Handling  | ส่ง Payload ผิด Format (Wrong Type)| Return HTTP 422 Unprocessable Entity
+TC-06    | Docker Integration | สั่ง `docker compose up`     | Services (FastAPI + Streamlit) รันได้แบบ Healthy
+--------------------------------------------------------------------------------
+
+4. Defect Severity & Risk Management
+- Critical (Blocker): API Crash, โมเดลไม่สามารถ Loaded ขึ้น Memory ได้ -> แก้ไขทันที
+- Major: ค่า Accuracy โมเดลต่ำกว่า Acceptance Criteria -> Retrain หรือปรับ Hyperparameters
+- Minor: UI แสดงผลบน Streamlit คลาดเคลื่อนเล็กน้อย -> แก้ไขตามรอบ Sprint
