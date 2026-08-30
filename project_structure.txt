@@ -1,0 +1,58 @@
+mm-ecom-engine/
+│
+├── data/                       # จัดเก็บข้อมูลทุกชนิด (ใส่ .gitignore ไว้ด้วย)
+│   ├── raw/                    # ข้อมูลดิบที่ยังไม่ได้แปลง
+│   ├── processed/              # ข้อมูลที่ Clean และ Feature Engineered แล้ว
+│   └── sample/                 # ข้อมูลตัวอย่างขนาดเล็กสำหรับทดสอบ API/Test
+│
+├── notebooks/                  # Jupyter Notebooks สำหรับการทดลอง (เรียงตามลำดับ)
+│   ├── 01_eda_tabular.ipynb    # EDA ข้อมูล LTV & Churn
+│   ├── 02_eda_nlp.ipynb        # EDA ข้อมูล Text Reviews
+│   ├── 03_eda_vision.ipynb     # EDA ข้อมูล Product Images
+│   └── 04_experiments.ipynb    # ทดลอง Model Quick Prototyping
+│
+├── src/                        # Code หลักของระบบ (Modular Python Scripts)
+│   ├── __init__.py
+│   ├── data_pipeline/          # 1. Data Processing Module
+│   │   ├── __init__.py
+│   │   ├── clean.py            # Data Cleaning & Missing Imputation
+│   │   ├── features.py         # Feature Engineering (Tabular)
+│   │   └── text_preprocess.py  # Text Cleaning / Tokenization
+│   │
+│   ├── models/                 # 2. Machine Learning & Deep Learning Modules
+│   │   ├── __init__.py
+│   │   ├── tabular_model.py    # XGBoost / LightGBM (LTV & Churn)
+│   │   ├── nlp_model.py        # HuggingFace Transformer/BERT (Sentiment Analysis)
+│   │   └── vision_model.py     # PyTorch/TensorFlow CNN/ResNet (Image Classification)
+│   │
+│   ├── utils/                  # 3. Helper Functions & Metrics
+│   │   ├── __init__.py
+│   │   ├── metrics.py          # Custom Evaluation Metrics
+│   │   └── logger.py           # Logging Setup
+│   │
+│   └── api/                    # 4. Serving & Deployment (FastAPI)
+│       ├── __init__.py
+│       ├── main.py             # Entrypoint ของ FastAPI Application
+│       ├── schemas.py          # Pydantic Data Models (Request/Response)
+│       └── routes/             # แยก Endpoint ตามงาน
+│           ├── tabular_route.py
+│           ├── nlp_route.py
+│           └── vision_route.py
+│
+├── saved_models/               # จัดเก็บ Weights ของโมเดลที่เทรนแล้ว
+│   ├── xgboost_churn.pkl
+│   ├── bert_sentiment/
+│   └── resnet_product.pth
+│
+├── dashboard/                  # UI App สำหรับพรีเซนต์งาน
+│   └── app.py                  # Streamlit Dashboard App
+│
+├── tests/                      # Unit Tests สำหรับซอฟต์แวร์
+│   ├── test_data.py
+│   └── test_api.py
+│
+├── Dockerfile                  # การแพ็ก Application ลง Container
+├── docker-compose.yml          # Run FastAPI + Streamlit พร้อมกัน
+├── requirements.txt            # Python Dependencies
+├── .gitignore                  # ละเว้นข้อมูลขนาดใหญ่ และ temporary files
+└── README.md                   # อธิบายรายละเอียดโปรเจกต์และการใช้งาน

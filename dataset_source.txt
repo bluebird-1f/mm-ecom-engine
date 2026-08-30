@@ -1,0 +1,10 @@
+Data Science (Tabular): ใช้ข้อมูลประวัติการซื้อขาย
+แหล่งดาวน์โหลด: Kaggle - Brazilian E-Commerce Public Dataset by Olist (https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce?select=olist_customers_dataset.csv)
+ทำไมถึงเหมาะกับโปรเจกต์นี้:
+
+Tabular (สำหรับ XGBoost/LightGBM): มี Relational Tables ครบทั้งประวัติการสั่งซื้อ (orders), 
+รายการสินค้า (order_items), ลูกค้า (customers), และการชำระเงิน (order_payments) 
+นำมาทำ Feature Engineering เช่น RFM (Recency, Frequency, Monetary) หรือทำนาย Churn/LTV ได้สมบูรณ์แบบ  
+
+NLP (สำหรับ BERT): มีตาราง order_reviews ซึ่งเก็บคำรีวิวภาษาโปรตุเกส (หรือแปลเป็นอังกฤษ) 
+พร้อม Review Score (1-5 ดาว) เอาไว้ทำ Sentiment Analysis ได้ในตัว

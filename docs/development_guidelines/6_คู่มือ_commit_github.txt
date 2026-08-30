@@ -1,0 +1,19 @@
+ประเภทของ Type ที่ใช้บ่อย:
+
+feat: เพิ่มฟีเจอร์ใหม่ (Feature)
+fix: แก้ไขบั๊ก (Bug fix)
+refactor: ปรับแต่งโค้ดให้สะอาดขึ้นโดยไม่เปลี่ยนพฤติกรรมของโปรแกรม
+style: แก้ไขเรื่องรูปแบบ เช่น ช่องว่าง, เว้นวรรค, จัดฟอร์แมต (ไม่มีผลต่อการทำงานของโค้ด)
+docs: แก้ไขเอกสาร เช่น README.md
+test: เพิ่มหรือแก้ไข Test
+chore: งานทั่วไปที่ไม่เกี่ยวกับการแก้ไขโค้ดหลัก เช่น อัปเดต dependencies, ตั้งค่า build tool
+
+ตัวอย่าง
+(tag: v1.1.0) Release version 1.1.0
+feat(analytics): add daily PnL chart visualization
+feat(risk): implement max daily drawdown lock
+fix(execution): fix order delay on high volatility
+(tag: v1.0.0) Release version 1.0.0
+feat(auth): add user authentication system
+
+1 Task = 1 Branch = 1 Commit Group: เวลาทำฟีเจอร์ไหนตาม Roadmap ให้สร้าง Git Branch แยกออกมา (เช่น feature/auth-jwt) พอทำเสร็จค่อย Merge กลับเข้าหลัก

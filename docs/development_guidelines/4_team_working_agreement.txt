@@ -13,3 +13,10 @@ update code / fix bug
 - เวลาทำงานหลัก (Core Hours) คือ 10:00 - 16:00 น.
 - แจ้งสแตนด์บายหรือลางานใน Slack ช่อง #team-out-of-office ล่วงหน้าอย่างน้อย 1 วัน
 ปล.ตอนนี้ฉันกำลังทำคนเดียว ใช้วิธีupdate ไฟล์ team-out-of-office.txt เอาเพื่อความสะดวก
+
+"Non-Functional Requirements"
+Handling Error, จับ Specific Exception ชัดเจน, ส่ง HTTP Status Code ที่ถูกต้อง และส่ง JSON Response แบบมีโครงสร้างมาตรฐานกลับไปเสมอ
+Logging, ใช้ logging / structlog บันทึก log เป็น JSON format พร้อมระดับ (INFO, WARNING, ERROR) สะดวกต่อการนำไปค้นหาบน Log Analyzer
+Unit Testing, มี Unit Test/Integration Test ที่วัด Code Coverage (>80%) ครอบคลุมทั้งกรณีปกติ (Happy Path) และกรณีสายเคส (Edge Cases)
+Security, แยก Secret ใส่ .env, ทำ Input Validation ด้วย Pydantic, จำกัด Rate Limit และยึดหลัก Principle of Least Privilege
+Clean Code โค้ดถูกจัดหมวดหมู่แบบ Modular (src/), ตั้งชื่อความหมายชัดเจน, ทำ Type Hinting และผ่าน Linter/Formatter สม่ำเสมอ
