@@ -1,0 +1,63 @@
+Step 1: Environment Setup & Foundation (ไฟล์ระดับ Root)
+เริ่มต้นวางรากฐานก่อนแตะไฟล์ใน src/
+
+.gitignore: ระบุ path ของโฟลเดอร์ data/, saved_models/, venv/, __pycache__/ เพื่อไม่ให้ Git ตามเก็บไฟล์ใหญ่
+requirements.txt: ระบุ library ที่ต้องใช้ เช่น pandas, scikit-learn, lightgbm, torch, transformers, fastapi, uvicorn, streamlit
+src/utils/logger.py: เขียนระบบ Custom Logging สำหรับ print ข้อมูล/ข้อความแจ้งเตือน (แทนการใช้ print()) เพื่อใช้ติดตามการทำงานทั้งระบบ
+src/utils/metrics.py: เขียนฟังก์ชันสำหรับคำนวณ Metric Custom เช่น F1-score, ROC-AUC, RMSE สำหรับวัดผลโมเดลทั้ง 3 สาย
+
+Step 2: Data Processing & EDA (โฟลเดอร์ notebooks/ และ src/data_pipeline/)
+ทำ EDA บน Notebook ก่อน แล้วคอย Refactor Logic ที่ใช้ซ้ำมาใส่ใน Modular Scripts
+
+notebooks/01_eda_tabular.ipynb ถึง 03_eda_vision.ipynb:
+สำรวจ Distribution, Missing values, Outliers และ Imbalance ของชุดข้อมูล
+ลองสร้าง Feature และ Plot ดูความสัมพันธ์ของตัวแปร
+src/data_pipeline/clean.py:
+เขียน Class/Function สำหรับจัดการ Missing values, Drop duplicates, และ Filter Outliers จาก Data ดิบใน data/raw/
+src/data_pipeline/features.py:
+เขียน Logic สำหรับ Feature Engineering ของ Tabular Data (เช่น การคำนวณค่า Recency, Frequency, Monetary หรือ aggregates ต่างๆ) แล้ว Save ข้อมูลที่ได้ลง data/processed/
+src/data_pipeline/text_preprocess.py:
+เขียน Logic สำหรับทำความสะอาดข้อความรีวิว เช่น การตัด HTML tags, Special Characters หรือการทำ Tokenization ก่อนส่งให้ Transformer
+
+Step 3: Model Building & Prototyping (โฟลเดอร์ src/models/ และ saved_models/)
+นำข้อมูลที่ processed แล้วมาสร้างและ Train โมเดล
+
+notebooks/04_experiments.ipynb:
+ทดลอง Train โมเดลแต่ละตัวสั้นๆ เพื่อหา Hyperparameters และ Model Architecture ที่นิ่งที่สุด
+src/models/tabular_model.py:
+เขียน Class สำหรับ TabularModel ที่มี method อย่าง .train(), .evaluate(), .save(), และ .predict() สำหรับ LightGBM / XGBoost
+src/models/nlp_model.py:
+เขียน Class สำหรับ NLPModel ที่จัดการการ Fine-tune / Inference โมเดล Sentiment จาก HuggingFace/PyTorch
+src/models/vision_model.py:
+เขียน Class สำหรับ VisionModel ที่รองรับ Image Preprocessing (Resize, Normalize) และการโหลด Weights ResNet มาพยากรณ์หมวดหมู่รูปภาพ
+การ Save Model: เมื่อสั่ง Run script เทรนแต่ละตัว ให้ Export weights ไปเก็บไว้ใน saved_models/ (.pkl, .pth, ไดเรกทอรี HuggingFace)
+
+Step 4: Serving & API Layer (โฟลเดอร์ src/api/)
+นำโมเดลที่เสร็จแล้วมาสร้าง Interface เพื่อให้บริการพยากรณ์ข้อมูล
+
+src/api/schemas.py:
+เขียน Pydantic Models กำหนด Schema ของ Request (Input) และ Response (Output) ของแต่ละ Endpoint ให้ชัดเจน
+src/api/routes/ (tabular_route.py, nlp_route.py, vision_route.py):
+เขียน Endpoints แยกตามหน้าที่ (เช่น /predict/churn, /predict/sentiment, /predict/category)
+โหลด Weights จาก saved_models/ เพื่อเรียกใช้ Inference
+src/api/main.py:
+รวม Routes ทั้งหมดเข้ามาที่ FastAPI App ตัวหลัก
+สร้าง Endpoint รวม (Unified Endpoint) เช่น /predict/all ที่รับทั้งข้อมูล Tabular, Text และ Image แล้วส่งผลลัพธ์กลับใน JSON เดียว
+
+Step 5: Dashboard & Software Testing (โฟลเดอร์ dashboard/ และ tests/)
+dashboard/app.py:
+
+เขียน Streamlit App สร้าง Form รับค่าตัวเลข, ข้อความ และช่อง Upload รูปภาพ
+เขียน Logic ให้ Streamlit ส่ง HTTP Request (ด้วย requests library) ไปหา FastAPI Backend แล้วนำ JSON ที่ได้มาพล็อตเป็น Graph/Badge แสดงผล
+tests/test_data.py & test_api.py:
+เขียน Unit Test ด้วย pytest เช็กว่า Pipeline ทำความสะอาด Data แล้วรูปทรง (Shape) ถูกต้องหรือไม่ และ Endpoint FastAPI ตอบกลับสถานะ 200 OK พร้อม Response Schema ที่ถูกต้องไหม
+
+Step 6: Containerization (ไฟล์ระดับ Root)
+Dockerfile:
+
+กำหนด Base Image (Python 3.10/3.11), ติดตั้ง Dependencies, Copy โค้ดโปรเจกต์ และตั้งคำสั่งรัน Uvicorn Server สำหรับ FastAPI
+docker-compose.yml:
+ตั้งค่ารัน 2 Services ขนานกัน: Service FastAPI และ Service Streamlit โดยตั้งเน็ตเวิร์กเชื่อมต่อระหว่าง 2 Containers นี้
+README.md:
+
+เขียนสรุปวิธีใช้งาน การ setup environment และคำสั่งรัน docker-compose up
